@@ -24,7 +24,6 @@ def login():
     password = data.get("password")
 
     if username and password:
-        # Login
         user = User.query.filter_by(username=username).first()
 
         if user and bcrypt.checkpw(str.encode(password), str.encode(user.password)):
@@ -39,7 +38,7 @@ def logout():
     logout_user()
     return jsonify({"message": "Logout realizado com sucesso!"})
 
-@app.route("/user", methods=["POST"])
+@app.route("/users", methods=["POST"])
 def create_user():
     data = request.json
     username = data.get("username")
@@ -71,7 +70,7 @@ def get_me():
         "role": current_user.role
     }
 
-@app.route("/user/<int:id_user>", methods=["GET"])
+@app.route("/users/<int:id_user>", methods=["GET"])
 @login_required
 def read_user(id_user):
     user = User.query.get(id_user)
@@ -84,7 +83,7 @@ def read_user(id_user):
     
     return jsonify({"message": "Usuário não encontrado."}), 404
 
-@app.route("/user/<int:id_user>", methods=["PUT"])
+@app.route("/users/<int:id_user>", methods=["PUT"])
 @login_required
 def update_user(id_user):
     data = request.json
@@ -101,7 +100,7 @@ def update_user(id_user):
     
     return jsonify({"message": "Usuário não encontrado."}), 404
 
-@app.route("/user/<int:id_user>", methods=["DELETE"])
+@app.route("/users/<int:id_user>", methods=["DELETE"])
 @login_required
 def delete_user(id_user):
     user = User.query.get(id_user)
