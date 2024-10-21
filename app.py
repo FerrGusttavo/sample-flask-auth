@@ -54,6 +54,15 @@ def create_user():
     
     return jsonify({"message": "Dados inválidos."}), 400
 
+@app.route("/users", methods=["GET"])
+@login_required
+def get_all_users():
+    users = User.query.all()
+
+    users_list = [{'id': user.id, 'username': user.username, 'role': user.role} for user in users]
+
+    return jsonify(users_list)
+
 @app.route("/me", methods=["GET"])
 @login_required
 def get_me():
